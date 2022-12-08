@@ -2,6 +2,7 @@ import express from "express";
 import router from "./router";
 import morgan from "morgan";
 import { protect } from "./modules/auth";
+import { createNewUser, signIn } from "./handlers/user";
 
 const app = express();
 
@@ -21,6 +22,10 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", protect, router); // Example /api/product  || we are mounting api before our router
-// We are adding protector before router so I non authorized person cannot acees router directly
+// We are adding protector before router so I non authorized person cannot access router directly
+
+// We are not using protect here because protect will check for tokens and before signin we won't be having a token
+app.post("/user", createNewUser);
+app.post("/signin", signIn);
 
 export default app;

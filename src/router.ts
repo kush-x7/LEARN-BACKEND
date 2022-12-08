@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { body, validationResult } from "express-validator";
 
 const router = Router();
 
@@ -9,7 +10,16 @@ router.get("/product", (req, res) => {
 });
 router.get("/product/:id", () => {});
 
-router.put("/product/:id", () => {});
+router.put("/product/:id", body("name").isString(), (req, res) => {
+  // This says req.body should a a field name on it
+  const errors = validationResult(req);
+  console.log(errors);
+
+  if (!errors.isEmpty()) {
+    res.status(400);
+    res.json({ errors: errors.array() });
+  }
+});
 router.delete("/product/:id", () => {});
 router.post("/product", () => {}); //Creating ID
 // ---------------------------------------

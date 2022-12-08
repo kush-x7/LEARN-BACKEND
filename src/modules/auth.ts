@@ -30,22 +30,23 @@ export const protect = (req, res, next) => {
   }
 
   // When the user is sending bearer token. So we are splitting and extracting the token
-  const [, token] = bearer.split(""); //it will return an array
+  const [, token] = bearer.split(" "); //it will return an array
 
   // If we don't have token
   if (!token) {
     res.status(401);
-    res.json({ message: "bhaiya valid token toa bejiye" });
+    res.json({ message: "Auth mein data hai lekin token nahi" });
     return;
   }
 
   //When we have token we should verify it
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = user;
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = payload;
     next();
+    return;
   } catch (e) {
-    console.error(e);
+    console.error("error hai bhaiya");
     res.status(401);
     res.json({ message: "not valid token" });
     return;
