@@ -11,11 +11,6 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // THis will enable query params otherwise the we will receive link as a string
 
-// app.use((req, res, next) => {
-//   req.kush_secret = "cat";
-//   next();
-// });
-
 // Default
 app.get("/", (req, res) => {
   res.json({ message: "Hello" });
